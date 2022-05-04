@@ -8,5 +8,16 @@ using System.Threading.Tasks;
 internal class Die
 {
     public int[] Numbers = { 1, 2, 3, 4, 5, 6 };
+
+    public int ValueOnTop { get; set; }
+
+    public void SetValueOnTop (int value)
+    {
+        ValueOnTop = value;
+    }
+    public int GetValueOnTop()
+    {
+        return ValueOnTop;
+    }
 }
 

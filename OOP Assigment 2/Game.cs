@@ -35,26 +35,36 @@ internal class Game
     {
         for (int i = 1; i < 7; i++)
         {
-            int[] a = diceValues.FindAll(element => element.Equals(i)).ToArray();
-            if (a.Length >= 2)
+            int[] NofKind = diceValues.FindAll(element => element.Equals(i)).ToArray();
+            if (NofKind.Length >= 2)
             {
-                if( a.Length >= 3)
+                if( NofKind.Length >= 3)
                 {
-                    if (a.Length == 3)
+                    if (NofKind.Length == 3)
                     {
                         player.SetPoints(3);
                     }
-                    else if (a.Length == 4)
+                    else if (NofKind.Length == 4)
                     {
                         player.SetPoints(6);
                     }
-                    else if (a.Length == 5)
+                    else if (NofKind.Length == 5)
                     {
                         player.SetPoints(12);
                     }
                     break;                    
                 }
-                CheckforNumbers(player.PlayDice(), player);
+                diceValues = player.PlayRemainingDices(diceValues, NofKind);
+                if (diceValues.Count <= 0)
+                {
+                    Console.WriteLine("You have already rolled twice , no more rollings are allowed in this round " +
+                        " You have scored 0 points in this round");
+                    player.SetPoints(0);
+                }
+                else
+                {
+                    CheckforNumbers(diceValues, player);
+                }
                 break;
             }
         }

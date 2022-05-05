@@ -12,23 +12,39 @@ internal class Game
     public void DisplayScoreBoard()
     {
         Console.WriteLine("Game Board Score:");
-        Console.WriteLine("Player 1 has {0) points",player1.GetPoints());
-        Console.WriteLine("Player 2 has {0) points",player2.GetPoints());
-
+        Console.WriteLine("Player 1 has {0} points",player1.GetPoints());
+        Console.WriteLine("Player 2 has {0} points",player2.GetPoints());
+    }
+    public void DisplayDices( List<int> dices)
+    {
+        foreach (int dice in dices)
+        {
+            Console.Write(dice + " ");
+        }
+        Console.WriteLine("\n");
     }
     // Player vs Player
     public void PlayPVP()
     {
-        
 
+        player1.SetName();
+        player2.SetName();
         while ( player1.GetPoints() < 50 || player2.GetPoints() < 50)
         {
-            CheckforNumbers(player1.PlayDice(), player1);
+            CheckforNumbers(player1.PlayDice(), player1);            
             CheckforNumbers(player2.PlayDice(), player2);
 
             DisplayScoreBoard();
         }
-        
+        if ( player1.GetPoints() > player2.GetPoints())
+        {
+            Console.WriteLine("{0} has won the game with {1} points ",player1.GetName(),player1.GetPoints());
+        }
+        else
+        {
+            Console.WriteLine("{0} has won the game with {1} points ", player2.GetName(), player2.GetPoints());
+        }
+
 
     }
     public void CheckforNumbers(List<int> diceValues, Player player)
@@ -54,6 +70,7 @@ internal class Game
                     }
                     break;                    
                 }
+                
                 diceValues = player.PlayRemainingDices(diceValues, NofKind);
                 if (diceValues.Count <= 0)
                 {
@@ -63,6 +80,7 @@ internal class Game
                 }
                 else
                 {
+                    DisplayDices(diceValues);
                     CheckforNumbers(diceValues, player);
                 }
                 break;

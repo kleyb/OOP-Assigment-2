@@ -10,11 +10,14 @@ internal class Player
     private int Points { get; set; }
     private string Name { get; set; }
 
-    int rounds = 2;
+    private int attempts = 2;
 
     Die[] die = new Die[5];
     Random random = new Random();
-
+    public void ResetAttempts()
+    {
+        attempts = 2;
+    }
     public void SetName()
     {
         string name = string.Empty;
@@ -34,15 +37,11 @@ internal class Player
     public List<int> PlayDice()
     {
         List<int> diceValues = new List<int>();
-        Console.WriteLine("{0} Please press 'Enter' to roll your dices",Name);
+        Console.WriteLine("{0} Please press any key to roll your dices",Name);
         Console.ReadKey();
-        Console.WriteLine( "{0} rolling dices Dices", Name);
+        Console.WriteLine("{0} rolling dices", Name);
         Thread.Sleep(3000);
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    int selectNum = die.Numbers[random.Next(0, die.Numbers.Length - 1)];
-        //    diceValues.Add(selectNum);
-        //}
+
         for (int i = 0; i < die.Length; i++)
         {
             die[i] = new Die();
@@ -56,17 +55,23 @@ internal class Player
         Console.WriteLine("\n");
         return diceValues;
     }
-    public List<int> PlayRemainingDices(List<int> diceValues, int[] NofKind)
+    public List<int> PlayRemainingDices(List<int> diceValues, int pairToKeep)
     {
         int selectNum;
         List<int> dicesToBeRolled = new List<int>();
-        if (rounds > 0)
-        {
-            Console.WriteLine("You have not scored any points, however you have 2 of a kind, press enter to play the remaining dices again");
-            Console.ReadKey();
+        if (attempts > 0)
+        {               
+           // Console.WriteLine("You have not scored any points, however you have 2 of-a-kind");
+            Console.WriteLine("Please press any key to confirm the re-roll of dices or enter 'NO' to keep your dices");
+            if (Console.ReadLine().ToUpper()== "NO")
+            {
+                attempts = 0;
+                return diceValues;
+            }
+
             for (int i = 0; i < diceValues.Count; i++)
             {
-                if (diceValues[i] != NofKind[0])
+                if (diceValues[i] != pairToKeep)
                 {
                     dicesToBeRolled.Add(i);
                 }
@@ -79,13 +84,13 @@ internal class Player
 
             diceValues.Clear();
 
-            if (rounds > 0)
+            if (attempts > 0)
             {
                 for (int i = 0; i < die.Length; i++)
                 {
                     diceValues.Add(die[i].GetValueOnTop());
                 }
-                rounds--;
+                attempts--;
                 return diceValues;
             }
         }

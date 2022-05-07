@@ -44,11 +44,23 @@ internal class Game
         {
             Console.WriteLine("{0} has won the game with {1} points ", player2.GetName(), player2.GetPoints());
         }
-
-
     }
     public void CheckforNumbers(List<int> diceValues, Player player)
     {
+        Dictionary<int,int> frequency = new Dictionary<int,int>();
+        foreach (int i in diceValues)
+        {
+            if (!frequency.ContainsKey(i))
+            {
+                frequency.Add(i, 1);
+            }
+            else
+            {
+                frequency[i]++;
+            }
+        }
+        
+        
         for (int i = 1; i < 7; i++)
         {
             int[] NofKind = diceValues.FindAll(element => element.Equals(i)).ToArray();

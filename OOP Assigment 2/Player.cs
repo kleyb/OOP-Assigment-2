@@ -61,8 +61,15 @@ internal class Player
         int selectNum;
         List<int> dicesToBeRolled = new List<int>();
         if (rounds > 0)
-        {
-            Console.WriteLine("You have not scored any points, however you have 2 of a kind, press enter to play the remaining dices again");
+        {   
+            
+            Console.WriteLine("You have not scored any points, however you have 2 of-a-kind");
+            Console.WriteLine("Would you like to roll the remaining dices again ? Press any key to confirm, enter 'No' to keep the dices");
+            if (Console.ReadLine().ToUpper()== "NO")
+            {
+                rounds = 0;
+                return diceValues;
+            }
             Console.ReadKey();
             for (int i = 0; i < diceValues.Count; i++)
             {

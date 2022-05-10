@@ -7,23 +7,27 @@ using System.Threading.Tasks;
 
 internal class Game
 {
-    Player player1 = new Player();
-    Player player2 = new Player();
-    public void SetAttemptsNumber(Player player1,Player player2)
+    //HumanPlayer player1 = new HumanPlayer();
+    //HumanPlayer player2 = new HumanPlayer();
+    //HumanPlayer player3 = new HumanPlayer();
+    //CompPlayer compPlayer = new CompPlayer();
+    
+    public void ResetAttemptsNumber(HumanPlayer player1,HumanPlayer player2)
     {
-        player1.ResetAttempts();
-        player2.ResetAttempts();
+        
+        player1.SetAttempts(2);
+        player2.SetAttempts(2);
     }
-    public void SetAttemptsNumber(Player player)
+    public void ResetAttemptsNumber(Player player)
     {
-        player.ResetAttempts();
+        player.SetAttempts(2);
     }
-    public void DisplayScoreBoard()
+    public void DisplayScoreBoard(HumanPlayer human,HumanPlayer human2)
     {
         
         Console.WriteLine("\n Game Board Score:");
-        Console.WriteLine("Player 1 has {0} points",player1.GetPoints());
-        Console.WriteLine("Player 2 has {0} points\n",player2.GetPoints());
+        Console.WriteLine("{0} has {1} points",human.GetName(),human.GetPoints());
+        Console.WriteLine("{0} has {1} points\n",human2.GetName(),human2.GetPoints());
     }
     public void DisplayDices( List<int> dices)
     {
@@ -34,7 +38,7 @@ internal class Game
         Console.WriteLine("\n");
     }
     // Player vs Player
-    public void PlayPVP()
+    public void PlayPVP(HumanPlayer player1,HumanPlayer player2)
     {
         Console.Clear();
 
@@ -47,8 +51,8 @@ internal class Game
         {
             CheckforNumbers(player1.PlayDice(), player1);
             CheckforNumbers(player2.PlayDice(), player2);
-            SetAttemptsNumber(player1, player2);
-            DisplayScoreBoard();
+            ResetAttemptsNumber(player1, player2);
+            DisplayScoreBoard(player1,player2);
             if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10) break;
             Console.WriteLine("Please press any key to start next round");
             Console.ReadKey();
@@ -56,28 +60,15 @@ internal class Game
             Thread.Sleep(3000);
             Console.Clear();
 
-        }
-        if (player1.GetPoints() > player2.GetPoints())
-        {
-            Console.WriteLine("{0} has won the game with {1} points ", player1.GetName(), player1.GetPoints());
-        }
-        else if (player1.GetPoints() < player2.GetPoints())
-        {
-            Console.WriteLine("{0} has won the game with {1} points ", player2.GetName(), player2.GetPoints());
-        }
-        else
-        {
-            Console.WriteLine("The game has ended in a tie! ");
-            DisplayScoreBoard();
-        }
+        }     
 
     }
-    public void CheckforNumbers(List<int> diceValues, Player player)
+    public void CheckforNumbers(List<int> diceValues, HumanPlayer player)
     {
         Dictionary<int,int> frequency = new Dictionary<int,int>();
         List<int> temp = new List<int>();
-        string choice = "";
-        int pairToKeep = 0;
+        string choice;
+        int pairToKeep =0;
         bool scored = false;
 
 
@@ -122,7 +113,7 @@ internal class Game
 
         if (temp.Any() && scored == false)
         {
-            pairToKeep = temp.First();
+            //pairToKeep = temp.First();
             if (temp.Count > 1)
             {
                 Console.WriteLine("You have not scored any points at this round, however you have 2 of-a-kind twice " +

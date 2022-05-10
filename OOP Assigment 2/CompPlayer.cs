@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+// Computer Player
 class CompPlayer : Player
-{
-
+{ 
+    public override void SetName()
+    {
+        Name = "Computer Player";
+    }
 }
 

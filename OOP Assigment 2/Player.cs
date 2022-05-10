@@ -5,29 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-internal class Player
+class Player : IPlayer
 {
-    private int Points { get; set; }
-    private string Name { get; set; }
+    protected int Points { get; set; }
+    protected string Name { get; set; }
 
-    private int attempts = 2;
+    protected int Attempts { get; set; }
 
+    public Player()
+    {
+        Points = 0;
+        Attempts = 2;
+        Name = "Player";
+    }
+    
+    
     Die[] die = new Die[5];
     Random random = new Random();
-    public void ResetAttempts()
+    public void SetAttempts(int attempts)
     {
-        attempts = 2;
+        Attempts = attempts;
     }
-    public void SetName()
+    public virtual void SetName()
     {
-        string name = string.Empty;
-
-        while (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-        {
-            Console.WriteLine("Please enter your name: ");
-            name = Console.ReadLine();
-        }
-        Name = name;
+        Name = "Player";
     }
 
     public string GetName()
@@ -59,13 +60,13 @@ internal class Player
     {
         int selectNum;
         List<int> dicesToBeRolled = new List<int>();
-        if (attempts > 0)
+        if (Attempts > 0)
         {               
            // Console.WriteLine("You have not scored any points, however you have 2 of-a-kind");
             Console.WriteLine("Please press any key to confirm the re-roll of dices or enter 'NO' to keep your dices");
             if (Console.ReadLine().ToUpper()== "NO")
             {
-                attempts = 0;
+                Attempts = 0;
                 return diceValues;
             }
 
@@ -84,13 +85,13 @@ internal class Player
 
             diceValues.Clear();
 
-            if (attempts > 0)
+            if (Attempts > 0)
             {
                 for (int i = 0; i < die.Length; i++)
                 {
                     diceValues.Add(die[i].GetValueOnTop());
                 }
-                attempts--;
+                Attempts--;
                 return diceValues;
             }
         }

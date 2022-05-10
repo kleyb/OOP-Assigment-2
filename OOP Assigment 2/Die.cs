@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-internal class Die
+internal class Die : IDie
 {
     public int[] Numbers = { 1, 2, 3, 4, 5, 6 };
 
-    public int ValueOnTop { get; set; }
+    private int ValueOnTop { get; set; }
 
     public void SetValueOnTop (int value)
     {

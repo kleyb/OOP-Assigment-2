@@ -36,31 +36,41 @@ internal class Game
     // Player vs Player
     public void PlayPVP()
     {
+        Console.Clear();
+
         Console.WriteLine("Please enter the name of the Players \n");
         player1.SetName();
         player2.SetName();
-        while ( player1.GetPoints() < 50 && player2.GetPoints() < 50)
+
+
+        while (true)
         {
-            CheckforNumbers(player1.PlayDice(), player1);            
+            CheckforNumbers(player1.PlayDice(), player1);
             CheckforNumbers(player2.PlayDice(), player2);
-            SetAttemptsNumber(player1,player2);
+            SetAttemptsNumber(player1, player2);
             DisplayScoreBoard();
-            //if (player1.GetPoints() >= 50 || player2.GetPoints() >= 50) break;
+            if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10) break;
             Console.WriteLine("Please press any key to start next round");
             Console.ReadKey();
             Console.WriteLine("Next round starting...");
             Thread.Sleep(3000);
             Console.Clear();
-        
+
         }
-        if ( player1.GetPoints() > player2.GetPoints())
+        if (player1.GetPoints() > player2.GetPoints())
         {
-            Console.WriteLine("{0} has won the game with {1} points ",player1.GetName(),player1.GetPoints());
+            Console.WriteLine("{0} has won the game with {1} points ", player1.GetName(), player1.GetPoints());
         }
-        else
+        else if (player1.GetPoints() < player2.GetPoints())
         {
             Console.WriteLine("{0} has won the game with {1} points ", player2.GetName(), player2.GetPoints());
         }
+        else
+        {
+            Console.WriteLine("The game has ended in a tie! ");
+            DisplayScoreBoard();
+        }
+
     }
     public void CheckforNumbers(List<int> diceValues, Player player)
     {

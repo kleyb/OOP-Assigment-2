@@ -5,30 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-internal class Game
-{
-    //HumanPlayer player1 = new HumanPlayer();
-    //HumanPlayer player2 = new HumanPlayer();
-    //HumanPlayer player3 = new HumanPlayer();
-    //CompPlayer compPlayer = new CompPlayer();
-    
-    public void ResetAttemptsNumber(HumanPlayer player1,HumanPlayer player2)
+class Game
+{ 
+    public void ResetAttemptsNumber(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
+    {
+        player1.SetAttempts(2);
+        player2.SetAttempts(2);
+        player3.SetAttempts(2);
+    }
+
+
+    public void ResetAttemptsNumber(Player player1,Player player2)
     {
         
         player1.SetAttempts(2);
         player2.SetAttempts(2);
     }
-    public void ResetAttemptsNumber(Player player)
-    {
-        player.SetAttempts(2);
-    }
-    public void DisplayScoreBoard(HumanPlayer human,HumanPlayer human2)
+    public void DisplayScoreBoard(Player player1,Player player2)
     {
         
         Console.WriteLine("\n Game Board Score:");
-        Console.WriteLine("{0} has {1} points",human.GetName(),human.GetPoints());
-        Console.WriteLine("{0} has {1} points\n",human2.GetName(),human2.GetPoints());
+        Console.WriteLine("{0} has {1} points",player1.GetName(),player1.GetPoints());
+        Console.WriteLine("{0} has {1} points\n",player2.GetName(),player2.GetPoints());
     }
+    public void DisplayScoreBoard(HumanPlayer player1, HumanPlayer player2,HumanPlayer player3)
+    {
+
+        Console.WriteLine("\n Game Board Score:");
+        Console.WriteLine("{0} has {1} points", player1.GetName(), player1.GetPoints());
+        Console.WriteLine("{0} has {1} points", player2.GetName(), player2.GetPoints());
+        Console.WriteLine("{0} has {1} points\n", player3.GetName(), player3.GetPoints());
+
+    }
+
     public void DisplayDices( List<int> dices)
     {
         foreach (int dice in dices)
@@ -63,6 +72,60 @@ internal class Game
         }     
 
     }
+    //Player vs Player vs Player 
+    public void Play3PVP ( HumanPlayer player1,HumanPlayer player2,HumanPlayer player3)
+    {
+        Console.Clear();
+
+        Console.WriteLine("Please enter the name of the Players \n");
+        player1.SetName();
+        player2.SetName();
+        player3.SetName();
+
+        while (true)
+        {
+            CheckforNumbers(player1.PlayDice(), player1);
+            CheckforNumbers(player2.PlayDice(), player2);
+            CheckforNumbers(player3.PlayDice(), player3);
+            ResetAttemptsNumber(player1,player2,player3);
+
+            DisplayScoreBoard(player1, player2,player3);
+            if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10 || player3.GetPoints() >= 10) break;
+            Console.WriteLine("Please press any key to start next round");
+            Console.ReadKey();
+            Console.WriteLine("Next round starting...");
+            Thread.Sleep(3000);
+            Console.Clear();
+
+        }
+    }
+    //Player vs Computer Player
+    public void PlayVSComp(HumanPlayer player1, CompPlayer compPlayer)
+    {
+        Console.Clear();
+
+        Console.WriteLine("Please enter the name of the Player \n");
+        player1.SetName();
+        compPlayer.SetName();
+
+
+        while (true)
+        {
+            CheckforNumbers(player1.PlayDice(), player1);
+            CheckforNumbers(compPlayer.PlayDice(), compPlayer);
+
+            ResetAttemptsNumber(player1, compPlayer);
+            DisplayScoreBoard(player1, compPlayer);
+
+            if (player1.GetPoints() >= 10 || compPlayer.GetPoints() >= 10) break;
+            Console.WriteLine("Please press any key to start next round");
+            Console.ReadKey();
+            Console.WriteLine("Next round starting...");
+            Thread.Sleep(3000);
+            Console.Clear();
+        }
+    }
+
     public void CheckforNumbers(List<int> diceValues, HumanPlayer player)
     {
         Dictionary<int,int> frequency = new Dictionary<int,int>();
@@ -113,7 +176,6 @@ internal class Game
 
         if (temp.Any() && scored == false)
         {
-            //pairToKeep = temp.First();
             if (temp.Count > 1)
             {
                 Console.WriteLine("You have not scored any points at this round, however you have 2 of-a-kind twice " +
@@ -136,7 +198,6 @@ internal class Game
                 Console.WriteLine("You have already rolled twice ,no more rollings are allowed in this round." +
                     " You have scored 0 points in this round");
                 player.SetPoints(0);
-                //if (player.GetPoints() == 0) Console.WriteLine("Unfortunally, you have not scored any points in this round");
             }
             else
             {
@@ -147,6 +208,117 @@ internal class Game
         else if(!temp.Any() && scored == false)
         {
             Console.WriteLine("Unfortunally, you have not scored any points in this round. You scored 0 points");
+        }
+    }
+
+    public void CheckforNumbers(List<int> diceValues, CompPlayer compPlayer)
+    {
+        Dictionary<int, int> frequency = new Dictionary<int, int>();
+        List<int> temp = new List<int>();
+        string choice;
+        int pairToKeep = 0;
+        bool scored = false;
+
+
+        foreach (int i in diceValues)
+        {
+            if (!frequency.ContainsKey(i))
+            {
+                frequency.Add(i, 1);
+            }
+            else
+            {
+                frequency[i]++;
+            }
+        }
+        foreach (int i in frequency.Keys)
+        {
+            if (frequency[i] >= 2)
+            {
+                if (frequency[i] >= 3)
+                {
+                    if (frequency[i] == 3)
+                    {
+                        Console.WriteLine("{0} scored 3 points! ", compPlayer.GetName());
+                        compPlayer.SetPoints(3);
+                    }
+                    else if (frequency[i] == 4)
+                    {
+                        Console.WriteLine("{0} scored 6 points! ", compPlayer.GetName());
+                        compPlayer.SetPoints(6);
+                    }
+                    else if (frequency[i] == 5)
+                    {
+                        Console.WriteLine("{0} scored 12 points! ", compPlayer.GetName());
+                        compPlayer.SetPoints(12);
+                    }
+                    scored = true;
+                    break;
+                }
+                temp.Add(i);
+            }
+        }
+
+        if (temp.Any() && scored == false)
+        {
+            if (temp.Count > 1)
+            {
+                pairToKeep = temp.First();
+            }
+
+            diceValues = compPlayer.PlayRemainingDices(diceValues, pairToKeep);
+            if (diceValues.Count <= 0)
+            {
+                Console.WriteLine("{0} has re-rolled the dices 2 times , no more rollings allowed in this round", compPlayer.GetName()); 
+                compPlayer.SetPoints(0);
+            }
+            else
+            {
+                DisplayDices(diceValues);
+                CheckforNumbers(diceValues, compPlayer);
+            }
+        }
+        else if (!temp.Any() && scored == false)
+        {
+            Console.WriteLine("{0} scored 0 points",compPlayer.GetName());
+        }
+    }
+
+    public void FindWinner(Player player1, Player player2)
+    {
+        if (player1.GetPoints() > player2.GetPoints())
+        {
+            Console.WriteLine("{0} has won the game with {1} points ", player1.GetName(), player1.GetPoints());
+        }
+        else if (player1.GetPoints() < player2.GetPoints())
+        {
+            Console.WriteLine("{0} has won the game with {1} points ", player2.GetName(), player2.GetPoints());
+        }
+        else
+        {
+            Console.WriteLine("The game has ended in a tie! ");
+            DisplayScoreBoard(player1, player2);
+        }
+    }
+    public void FindWinner(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
+    {
+        if (player1.GetPoints() > player2.GetPoints() && player1.GetPoints() > player3.GetPoints())
+        {
+            Console.WriteLine("{0} has won the game with {1} points ", player1.GetName(), player1.GetPoints());
+        }
+        else if (player1.GetPoints() < player2.GetPoints() && player3.GetPoints() < player2.GetPoints())
+        {
+            Console.WriteLine("{0} has won the game with {1} points ", player2.GetName(), player2.GetPoints());;
+        }
+        else if (player3.GetPoints()> player1.GetPoints() && player3.GetPoints() > player2.GetPoints())
+        {
+            Console.WriteLine("{0} has won the game with {1} points", player3.GetName(),player3.GetPoints());
+        }
+        else
+        {
+            Console.WriteLine("The game has ended in a tie! ");
+            DisplayScoreBoard(player1, player2);
+
         }
     }
 }

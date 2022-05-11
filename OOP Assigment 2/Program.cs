@@ -29,18 +29,20 @@ while (true)
     if (input == 1)
     {
         game.PlayPVP(player1, player2);
+        game.FindWinner(player1, player2);
     }
     else if (input == 2)
     {
-
+        game.Play3PVP(player1, player2, player3);
+        game.FindWinner(player1, player2,player3);
     }
     else if (input == 3)
     {
-
+        game.PlayVSComp(player1, compPlayer);
+        game.FindWinner(player1, compPlayer);
     }
     else { Console.WriteLine("Invalid selection! \n"); continue; }
 
-    FindWinner(player1, player2, game);
 
     Console.WriteLine("Would like to play again ? Enter 'Yes' to start a new game or anything else to exit");
     if (Console.ReadLine().ToUpper() == "YES")
@@ -58,21 +60,4 @@ void DisplayMenu()
     Console.WriteLine("1. Player VS Player");
     Console.WriteLine("2. Player VS Player VS Player");
     Console.WriteLine("3. Player vs Comp");
-}
-
-static void FindWinner(HumanPlayer player1, HumanPlayer player2, Game game)
-{
-    if (player1.GetPoints() > player2.GetPoints())
-    {
-        Console.WriteLine("{0} has won the game with {1} points ", player1.GetName(), player1.GetPoints());
-    }
-    else if (player1.GetPoints() < player2.GetPoints())
-    {
-        Console.WriteLine("{0} has won the game with {1} points ", player2.GetName(), player2.GetPoints());
-    }
-    else
-    {
-        Console.WriteLine("The game has ended in a tie! ");
-        game.DisplayScoreBoard(player1, player2);
-    }
 }

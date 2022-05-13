@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 interface IPlayer
 {
-    public List<int> PlayDice();
+    public List<int> PlayDice(Die[] die);
 
     public void SetAttempts(int attempts);
 

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 
 class Game
-{ 
+{
+    private Die[] die = new Die[5];
     public void ResetAttemptsNumber(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
     {
         player1.SetAttempts(2);
@@ -58,8 +59,8 @@ class Game
 
         while (true)
         {
-            CheckforNumbers(player1.PlayDice(), player1);
-            CheckforNumbers(player2.PlayDice(), player2);
+            CheckforNumbers(player1.PlayDice(die), player1);
+            CheckforNumbers(player2.PlayDice(die), player2);
             ResetAttemptsNumber(player1, player2);
             DisplayScoreBoard(player1,player2);
             if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10) break;
@@ -84,9 +85,9 @@ class Game
 
         while (true)
         {
-            CheckforNumbers(player1.PlayDice(), player1);
-            CheckforNumbers(player2.PlayDice(), player2);
-            CheckforNumbers(player3.PlayDice(), player3);
+            CheckforNumbers(player1.PlayDice(die), player1);
+            CheckforNumbers(player2.PlayDice(die), player2);
+            CheckforNumbers(player3.PlayDice(die), player3);
             ResetAttemptsNumber(player1,player2,player3);
 
             DisplayScoreBoard(player1, player2,player3);
@@ -111,8 +112,8 @@ class Game
 
         while (true)
         {
-            CheckforNumbers(player1.PlayDice(), player1);
-            CheckforNumbers(compPlayer.PlayDice(), compPlayer);
+            CheckforNumbers(player1.PlayDice(die), player1);
+            CheckforNumbers(compPlayer.PlayDice(die), compPlayer);
 
             ResetAttemptsNumber(player1, compPlayer);
             DisplayScoreBoard(player1, compPlayer);
@@ -192,7 +193,7 @@ class Game
                 else pairToKeep = temp[1];
             }
 
-            diceValues = player.PlayRemainingDices(diceValues, pairToKeep);
+            diceValues = player.PlayRemainingDices(die,diceValues, pairToKeep);
             if (diceValues.Count <= 0)
             {
                 Console.WriteLine("You have already rolled twice ,no more rollings are allowed in this round." +
@@ -266,7 +267,7 @@ class Game
                 pairToKeep = temp.First();
             }
 
-            diceValues = compPlayer.PlayRemainingDices(diceValues, pairToKeep);
+            diceValues = compPlayer.PlayRemainingDices(die,diceValues, pairToKeep);
             if (diceValues.Count <= 0)
             {
                 Console.WriteLine("{0} has re-rolled the dices 2 times , no more rollings allowed in this round", compPlayer.GetName()); 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 // its unique and different from the player class 
 class CompPlayer : Player
 {
-    public override List<int> PlayDice()
+    public override List<int> PlayDice(Die[] die)
     {
         List<int> diceValues = new List<int>();
         Console.WriteLine("{0} is rolling the dices", Name);
@@ -18,8 +18,7 @@ class CompPlayer : Player
         for (int i = 0; i < die.Length; i++)
         {
             die[i] = new Die();
-            int selectNum = die[i].Numbers[random.Next(0, die[i].Numbers.Length - 1)];
-            die[i].SetValueOnTop(selectNum);
+            int selectNum = die[i].RollDice();
             diceValues.Add(selectNum);
         }
 
@@ -29,7 +28,7 @@ class CompPlayer : Player
         return diceValues;
     }
 
-    public override List<int> PlayRemainingDices(List<int> diceValues, int pairToKeep)
+    public override List<int> PlayRemainingDices(Die[] die,List<int> diceValues, int pairToKeep)
     {
         int selectNum;
         List<int> dicesToBeRolled = new List<int>();

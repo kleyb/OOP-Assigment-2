@@ -20,7 +20,7 @@ abstract class Player : IPlayer
     }
     
     
-    protected Die[] die = new Die[5];
+    
     protected Random random = new Random();
     public void SetAttempts(int attempts)
     {
@@ -35,9 +35,9 @@ abstract class Player : IPlayer
     {
         return Name;
     }
-    public abstract List<int> PlayDice();
+    public abstract List<int> PlayDice(Die[] die);
 
-    public abstract List<int> PlayRemainingDices(List<int> diceValues, int pairToKeep);
+    public abstract List<int> PlayRemainingDices(Die[] die,List<int> diceValues, int pairToKeep);
 
     //public List<int> PlayDice()
     //{

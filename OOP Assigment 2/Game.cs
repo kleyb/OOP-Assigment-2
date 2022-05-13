@@ -15,7 +15,6 @@ class Game
         player3.SetAttempts(2);
     }
 
-
     public void ResetAttemptsNumber(Player player1,Player player2)
     {
         

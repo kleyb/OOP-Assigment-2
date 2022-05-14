@@ -25,7 +25,6 @@ class CompPlayer : Player
         Console.WriteLine("The dices have been rolled, {0} got these values: ",Name);
         //foreach (int diceValue in diceValues) { Console.Write(diceValue + " "); }
         userInterface.DisplayDices(die);
-        Console.WriteLine("\n");
         return diceValues;
     }
 

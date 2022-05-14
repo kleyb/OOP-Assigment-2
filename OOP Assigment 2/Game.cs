@@ -14,30 +14,7 @@ class Game
     private Die[] die = new Die[5];
     UI userInterface = new UI();
     
-    public void GameMenu()
-    {
-        while (true)
-        {
-            switch (userInterface.DisplayMenu())
-            {
-                case 1:
-                    PlayPVP();
-                    userInterface.DisplayWinner(FindWinner(player1, player2));
-                    break;
-                case 2:
-                    Play3PVP();
-                    userInterface.DisplayWinner(FindWinner(player1, player2, player3));
-                    break;
-                case 3:
-                    PlayVSComp();
-                    userInterface.DisplayWinner(FindWinner(player1, compPlayer));
-                    break;
-                default:
-                    Console.WriteLine("Invalid selection! \n");
-                    continue;
-            }
-        }
-    }
+    
 
     public void ResetAttemptsNumber(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
     {
@@ -66,13 +43,16 @@ class Game
             CheckforNumbers(player2.PlayDice(die,userInterface), player2);
             ResetAttemptsNumber(player1, player2);
             userInterface.DisplayScoreBoard(player1,player2);
-            if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10) break;
+            if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10)
+            {
+                userInterface.DisplayWinner(FindWinner(player1, player2));
+                break;
+            }
             Console.WriteLine("Please press any key to start next round");
             Console.ReadKey();
             Console.WriteLine("Next round starting...");
             Thread.Sleep(3000);
             Console.Clear();
-
         }   
     }
     //Player vs Player vs Player 
@@ -93,7 +73,11 @@ class Game
             ResetAttemptsNumber(player1,player2,player3);
 
             userInterface.DisplayScoreBoard(player1, player2,player3);
-            if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10 || player3.GetPoints() >= 10) break;
+            if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10 || player3.GetPoints() >= 10)
+            {
+                userInterface.DisplayWinner(FindWinner(player1, player2,player3));
+                break;
+            }
             Console.WriteLine("Please press any key to start next round");
             Console.ReadKey();
             Console.WriteLine("Next round starting...");
@@ -107,11 +91,10 @@ class Game
     {
         Console.Clear();
 
+
         Console.WriteLine("Please enter the name of the Player \n");
         player1.SetName();
         compPlayer.SetName();
-
-
         while (true)
         {
             CheckforNumbers(player1.PlayDice(die,userInterface), player1);
@@ -120,7 +103,11 @@ class Game
             ResetAttemptsNumber(player1, compPlayer);
             userInterface.DisplayScoreBoard(player1, compPlayer);
 
-            if (player1.GetPoints() >= 10 || compPlayer.GetPoints() >= 10) break;
+            if (player1.GetPoints() >= 10 || compPlayer.GetPoints() >= 10)
+            {
+                userInterface.DisplayWinner(FindWinner(player1, compPlayer)); 
+                break;
+            }
             Console.WriteLine("Please press any key to start next round");
             Console.ReadKey();
             Console.WriteLine("Next round starting...");

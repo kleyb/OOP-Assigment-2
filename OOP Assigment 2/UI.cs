@@ -4,29 +4,70 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+//User interface handles the I/O ( input and displays)
 class UI
 {
-    public int DisplayMenu()
+    public void DisplayMenu(Game game)
     {
         int input;
-        Console.WriteLine("Please select your game mode by entering it's number on the list : ");
-        Console.WriteLine("1. Player VS Player");
-        Console.WriteLine("2. Player VS Player VS Player");
-        Console.WriteLine("3. Player vs Comp");
+        
 
         while (true)
         {
+            Console.WriteLine("Please select your game mode by entering it's number on the list : ");
+            Console.WriteLine("1. Player VS Player");
+            Console.WriteLine("2. Player VS Player VS Player");
+            Console.WriteLine("3. Player vs Comp");
+            Console.WriteLine("4. Exit Game");
             try
             {
-                return input = int.Parse(Console.ReadLine());                
+                input = int.Parse(Console.ReadLine());
+                GameMenu(game, input);
+                break;
+            }
+            
+            catch (InvalidSelectionException e)
+            {
+                Console.WriteLine(e.Message);
             }
             catch (Exception)
             {
                 Console.WriteLine("Please enter only numbers");
             }
+
         }
     }
+    public void GameMenu(Game game,int input)
+    {
+        while (true)
+        {
+            if (input == 1)
+            {
+                game.PlayPVP();
+                break;
+            }
+            else if(input == 2)
+            {
+                game.Play3PVP();
+                break;
+            }
+            else if (input == 3)
+            {
+                game.PlayVSComp();
+                break;
+            }
+            else if (input == 4)
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                throw new InvalidSelectionException("Invalid Input / Choice, please enter a number from the menu ");
+                
+            }
+        }
+    }
+
     public void DisplayScoreBoard(Player player1, Player player2)
     {
 
@@ -74,14 +115,34 @@ class UI
         Console.WriteLine("\n");
     }
 
-    public void DisplayEndingText()
+    public bool EndOfGameMenu()
     {
-
-        Console.WriteLine("Would like to play again ? Enter '1' to start a new game or anything else to exit");
-        if (int.Parse(Console.ReadLine()) == 1)
+       // bool playagain = true;
+        int input;
+        Console.WriteLine("Please select one of the options bellow:");
+        Console.WriteLine("1. Play Again");
+        Console.WriteLine("2. Exit Game");
+        while (true)
         {
-            
+            try
+            {
+                input = int.Parse(Console.ReadLine());
+                if (input == 1)
+                {
+                    return true;
+                }
+                else if (input == 2)
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Please enter only numbers");
+                continue;
+            }
         }
-
+        
+    }
 }
 

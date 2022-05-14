@@ -35,9 +35,8 @@ class HumanPlayer : Player
         }
 
         Console.WriteLine("The dices have been rolled, those are the values you got: ");
-        foreach (int diceValue in diceValues) { Console.Write(diceValue + " "); }
-        
-        Console.WriteLine("\n");
+        //foreach (int diceValue in diceValues) { Console.Write(diceValue + " "); }
+        userInterface.DisplayDices(die);
         return diceValues;
     }
 

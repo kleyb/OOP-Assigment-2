@@ -31,7 +31,7 @@ abstract class Player : IPlayer
     {
         return Name;
     }
-    public abstract List<int> PlayDice(Die[] die);
+    public abstract List<int> PlayDice(Die[] die, UI userInterface);
 
     public abstract List<int> PlayRemainingDices(Die[] die,List<int> diceValues, int pairToKeep);
 

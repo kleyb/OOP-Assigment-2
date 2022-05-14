@@ -19,7 +19,7 @@ class HumanPlayer : Player
         }
         Name = name;
     }
-    public override List<int> PlayDice(Die[] die)
+    public override List<int> PlayDice(Die[] die, UI userInterface)
     {
         List<int> diceValues = new List<int>();
         Console.WriteLine("{0} Please press any key to roll your dices", Name);
@@ -36,6 +36,7 @@ class HumanPlayer : Player
 
         Console.WriteLine("The dices have been rolled, those are the values you got: ");
         foreach (int diceValue in diceValues) { Console.Write(diceValue + " "); }
+        
         Console.WriteLine("\n");
         return diceValues;
     }

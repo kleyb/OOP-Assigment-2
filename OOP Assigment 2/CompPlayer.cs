@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 // its unique and different from the player class 
 class CompPlayer : Player
 {
-    public override List<int> PlayDice(Die[] die)
+    public override List<int> PlayDice(Die[] die, UI userInterface)
     {
         List<int> diceValues = new List<int>();
         Console.WriteLine("{0} is rolling the dices", Name);
@@ -23,7 +23,8 @@ class CompPlayer : Player
         }
 
         Console.WriteLine("The dices have been rolled, {0} got these values: ",Name);
-        foreach (int diceValue in diceValues) { Console.Write(diceValue + " "); }
+        //foreach (int diceValue in diceValues) { Console.Write(diceValue + " "); }
+        userInterface.DisplayDices(die);
         Console.WriteLine("\n");
         return diceValues;
     }

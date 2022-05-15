@@ -33,9 +33,8 @@ class Game
     public void PlayPVP()
     {
         Console.Clear();
-        Console.WriteLine("Please enter the name of the Players \n");
-        player1.SetName();
-        player2.SetName();
+        userInterface.SetPlayersName(player1);
+        userInterface.SetPlayersName(player2);
 
         while (true)
         {
@@ -48,11 +47,7 @@ class Game
                 userInterface.DisplayWinner(FindWinner(player1, player2));
                 break;
             }
-            Console.WriteLine("Please press any key to start next round");
-            Console.ReadKey();
-            Console.WriteLine("Next round starting...");
-            Thread.Sleep(3000);
-            Console.Clear();
+            userInterface.DisplayNextRoundMessage();
         }   
     }
     //Player vs Player vs Player 
@@ -60,10 +55,9 @@ class Game
     {
         Console.Clear();
 
-        Console.WriteLine("Please enter the name of the Players \n");
-        player1.SetName();
-        player2.SetName();
-        player3.SetName();
+        userInterface.SetPlayersName(player1);
+        userInterface.SetPlayersName(player2);
+        userInterface.SetPlayersName(player3);
 
         while (true)
         {
@@ -78,11 +72,7 @@ class Game
                 userInterface.DisplayWinner(FindWinner(player1, player2,player3));
                 break;
             }
-            Console.WriteLine("Please press any key to start next round");
-            Console.ReadKey();
-            Console.WriteLine("Next round starting...");
-            Thread.Sleep(3000);
-            Console.Clear();
+            userInterface.DisplayNextRoundMessage();
 
         }
     }
@@ -91,10 +81,9 @@ class Game
     {
         Console.Clear();
 
+        userInterface.SetPlayersName(player1);
+        userInterface.SetPlayersName(compPlayer);
 
-        Console.WriteLine("Please enter the name of the Player \n");
-        player1.SetName();
-        compPlayer.SetName();
         while (true)
         {
             CheckforNumbers(player1.PlayDice(die,userInterface), player1);
@@ -108,11 +97,8 @@ class Game
                 userInterface.DisplayWinner(FindWinner(player1, compPlayer)); 
                 break;
             }
-            Console.WriteLine("Please press any key to start next round");
-            Console.ReadKey();
-            Console.WriteLine("Next round starting...");
-            Thread.Sleep(3000);
-            Console.Clear();
+            userInterface.DisplayNextRoundMessage();
+
         }
     }
 
@@ -120,7 +106,6 @@ class Game
     {
         Dictionary<int,int> frequency = new Dictionary<int,int>();
         List<int> temp = new List<int>();
-        string choice;
         int pairToKeep =0;
         bool scored = false;
 
@@ -143,49 +128,38 @@ class Game
                 {
                     if (frequency[i] == 3)
                     {
-                        Console.WriteLine("{0} You have scored 3 points! ",player.GetName());
+                        userInterface.DisplayPointsScored(player, 3);
                         player.SetPoints(3);
                     }
                     else if (frequency[i] == 4)
                     {
-                        Console.WriteLine("{0} You have scored 6 points! ", player.GetName());
+                        userInterface.DisplayPointsScored(player, 6);
                         player.SetPoints(6);
                     }
                     else if (frequency[i] == 5)
                     {
-                        Console.WriteLine("{0} You have scored 12 points! ", player.GetName());
+                        userInterface.DisplayPointsScored(player, 12);
                         player.SetPoints(12);
                     }
                     scored = true;
                     break;
                 }
                 temp.Add(i);
+                pairToKeep = i;
             }
         }
 
         if (temp.Any() && scored == false)
         {
-            if (temp.Count > 1)
+            if (temp.Count > 1 && player.GetAttempts() < 2)
             {
-                Console.WriteLine("You have not scored any points at this round, however you have 2 of-a-kind twice " +
-                    "this allows you to roll the dices again, please choose which '2 of-a-kind' would you like to keep");
-                
-                while (true)
-                {
-                    Console.WriteLine("Please enter '1' to keep {0} or enter '2' to keep {1}: ", temp[0], temp[1]);
-                    choice = Console.ReadLine();
-                    if (choice == "1" || choice == "2") break;
-                } 
-
-                if (choice == "1") pairToKeep = temp[0];
-                else pairToKeep = temp[1];
+                pairToKeep = userInterface.SelectDicesToKeep(temp);
             }
 
-            diceValues = player.PlayRemainingDices(die,diceValues, pairToKeep);
+            diceValues = player.PlayRemainingDices(userInterface,die,diceValues, pairToKeep);
             if (diceValues.Count <= 0)
-            {
-                Console.WriteLine("You have already rolled twice ,no more rollings are allowed in this round." +
-                    " You have scored 0 points in this round");
+            {                
+                userInterface.DisplayNoMoreRounds(player);
                 player.SetPoints(0);
             }
             else
@@ -196,15 +170,15 @@ class Game
         }
         else if(!temp.Any() && scored == false)
         {
-            Console.WriteLine("Unfortunally, you have not scored any points in this round. You scored 0 points");
+            userInterface.DisplayPointsScored(player, 0);
         }
     }
 
     public void CheckforNumbers(List<int> diceValues, CompPlayer compPlayer)
     {
+        //Dictionary is used to determine the frequency of numbers and used to find out if there is a 2 of-a-kind twice 
         Dictionary<int, int> frequency = new Dictionary<int, int>();
         List<int> temp = new List<int>();
-        string choice;
         int pairToKeep = 0;
         bool scored = false;
 
@@ -227,23 +201,24 @@ class Game
                 {
                     if (frequency[i] == 3)
                     {
-                        Console.WriteLine("{0} scored 3 points! ", compPlayer.GetName());
+                        userInterface.DisplayPointsScored(compPlayer, 3);
                         compPlayer.SetPoints(3);
                     }
                     else if (frequency[i] == 4)
                     {
-                        Console.WriteLine("{0} scored 6 points! ", compPlayer.GetName());
+                        userInterface.DisplayPointsScored(compPlayer, 6);
                         compPlayer.SetPoints(6);
                     }
                     else if (frequency[i] == 5)
                     {
-                        Console.WriteLine("{0} scored 12 points! ", compPlayer.GetName());
+                        userInterface.DisplayPointsScored(compPlayer, 12);
                         compPlayer.SetPoints(12);
                     }
                     scored = true;
                     break;
                 }
                 temp.Add(i);
+                pairToKeep = i;
             }
         }
 
@@ -254,10 +229,10 @@ class Game
                 pairToKeep = temp.First();
             }
 
-            diceValues = compPlayer.PlayRemainingDices(die,diceValues, pairToKeep);
+            diceValues = compPlayer.PlayRemainingDices(userInterface,die,diceValues, pairToKeep);
             if (diceValues.Count <= 0)
             {
-                Console.WriteLine("{0} has re-rolled the dices 2 times , no more rollings allowed in this round", compPlayer.GetName()); 
+                userInterface.DisplayNoMoreRounds(compPlayer);
                 compPlayer.SetPoints(0);
             }
             else
@@ -268,7 +243,7 @@ class Game
         }
         else if (!temp.Any() && scored == false)
         {
-            Console.WriteLine("{0} scored 0 points",compPlayer.GetName());
+            userInterface.DisplayPointsScored(compPlayer, 0);
         }
     }
 
@@ -283,7 +258,7 @@ class Game
             return player2;
         }
         else
-        {
+        {   //returns null if there is no clear winner 
             return null;
         }
     }

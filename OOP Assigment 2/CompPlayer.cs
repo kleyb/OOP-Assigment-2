@@ -12,8 +12,8 @@ class CompPlayer : Player
     public override List<int> PlayDice(Die[] die, UI userInterface)
     {
         List<int> diceValues = new List<int>();
-        Console.WriteLine("{0} is rolling the dices", Name);
-        Thread.Sleep(3000);
+        userInterface.CompRollingDicesDisplay(Name);
+
 
         for (int i = 0; i < die.Length; i++)
         {
@@ -22,20 +22,17 @@ class CompPlayer : Player
             diceValues.Add(selectNum);
         }
 
-        Console.WriteLine("The dices have been rolled, {0} got these values: ",Name);
-        //foreach (int diceValue in diceValues) { Console.Write(diceValue + " "); }
         userInterface.DisplayDices(die);
         return diceValues;
     }
 
-    public override List<int> PlayRemainingDices(Die[] die,List<int> diceValues, int pairToKeep)
+    public override List<int> PlayRemainingDices(UI userInterface, Die[] die,List<int> diceValues, int pairToKeep)
     {
         int selectNum;
         List<int> dicesToBeRolled = new List<int>();
         if (Attempts > 0)
         {
-            Console.WriteLine("{0} re-rolling dices ",Name);
-            Thread.Sleep(3000);
+            userInterface.CompRemainingDicesDisplay(Name);
             for (int i = 0; i < diceValues.Count; i++)
             {
                 if (diceValues[i] != pairToKeep)
@@ -64,9 +61,9 @@ class CompPlayer : Player
         return diceValues;
     }
 
-    public override void SetName()
+    public override void SetName(string name)
     {
-        Name = "Computer Player";
+        Name = name;
     }
 
     

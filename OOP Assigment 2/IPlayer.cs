@@ -11,7 +11,7 @@ interface IPlayer
 
     public void SetAttempts(int attempts);
 
-    public void SetName();
+    public void SetName(string name);
 
 
 }

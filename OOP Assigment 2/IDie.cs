@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 //that makes sure that there are implmentation of the following methods:
 interface IDie
 {
-    // The value on top ( or face) which is defined everytime the dices are rolled
-    public void SetValueOnTop(int value);
     // Get value on top , to allow the game to get this value indirectly
     public int GetValueOnTop();
+    // The RollDice value , 'rolls' the dices by randomly choosing a value 
+    public int RollDice();
 }
 

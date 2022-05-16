@@ -22,10 +22,9 @@ class Die : IDie
     }
     public int RollDice()
     {
-        int selectNum = Numbers[random.Next(0, Numbers.Length - 1)];
+        ValueOnTop = Numbers[random.Next(0, Numbers.Length - 1)];
 
-        ValueOnTop = selectNum;
-        return selectNum;
+        return ValueOnTop;
     }
 }
 

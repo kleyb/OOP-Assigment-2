@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 // its unique and different from the player class 
 class CompPlayer : Player
 {
-    public override List<int> PlayDice(Die[] die, UI userInterface)
+    public override List<int> PlayDices(Die[] die, UI userInterface)
     {
         List<int> diceValues = new List<int>();
         userInterface.CompRollingDicesDisplay(Name);

@@ -38,8 +38,8 @@ class Game
 
         while (true)
         {
-            CheckforNumbers(player1.PlayDice(die,userInterface), player1);
-            CheckforNumbers(player2.PlayDice(die,userInterface), player2);
+            CheckforNumbers(player1.PlayDices(die,userInterface), player1);
+            CheckforNumbers(player2.PlayDices(die,userInterface), player2);
             ResetAttemptsNumber(player1, player2);
             userInterface.DisplayScoreBoard(player1,player2);
             if (player1.GetPoints() >= 10 || player2.GetPoints() >= 10)
@@ -61,9 +61,9 @@ class Game
 
         while (true)
         {
-            CheckforNumbers(player1.PlayDice(die,userInterface), player1);
-            CheckforNumbers(player2.PlayDice(die,userInterface), player2);
-            CheckforNumbers(player3.PlayDice(die,userInterface), player3);
+            CheckforNumbers(player1.PlayDices(die,userInterface), player1);
+            CheckforNumbers(player2.PlayDices(die,userInterface), player2);
+            CheckforNumbers(player3.PlayDices(die,userInterface), player3);
             ResetAttemptsNumber(player1,player2,player3);
 
             userInterface.DisplayScoreBoard(player1, player2,player3);
@@ -86,8 +86,8 @@ class Game
 
         while (true)
         {
-            CheckforNumbers(player1.PlayDice(die,userInterface), player1);
-            CheckforNumbers(compPlayer.PlayDice(die,userInterface), compPlayer);
+            CheckforNumbers(player1.PlayDices(die,userInterface), player1);
+            CheckforNumbers(compPlayer.PlayDices(die,userInterface), compPlayer);
 
             ResetAttemptsNumber(player1, compPlayer);
             userInterface.DisplayScoreBoard(player1, compPlayer);

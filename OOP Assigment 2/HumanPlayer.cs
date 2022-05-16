@@ -19,56 +19,51 @@ class HumanPlayer : Player
         List<int> diceValues = new List<int>();
         //Display rolling dices UI and waits for user input
         userInterface.HumanRollingDicesDisplay(Name);
-        //iterates through every dice in the Die array and rolls them , assigns the value on top into selectNum
-        // the adds it into the diceValues list
+        //iterates through every dice in the Die array and rolls them , takes the value from RollDice()
+        // and adds it into the diceValues list
         for (int i = 0; i < die.Length; i++)
         {
             die[i] = new Die();
-            int selectNum = die[i].RollDice();
-            diceValues.Add(selectNum);
+            diceValues.Add(die[i].RollDice());
         }
         // Display the dice values
         userInterface.DisplayDices(die);
         //return the diceValues list
         return diceValues;
     }
-
+    //Overrides the abstract method from Player Class , re-rolls the remaining dices
     public override List<int> PlayRemainingDices(UI userInterface,Die[] die,List<int> diceValues, int pairToKeep)
-    {//
-        int selectNum;
-        List<int> dicesToBeRolled = new List<int>();
+    {// if the number of attempts is hight than 0 continues, else returns an empty list
         if (Attempts > 0)
-        {
+        {   //Request confirmation from the player that he wants to replay the dices
+            //if false returns the diceValues as it is and set Attempts to 0
             if (userInterface.PlayerRemainingDicesDisplay() == false)
             {
                 Attempts = 0;
                 return diceValues;
             }
-
+            // Goes through every value in the dice values
             for (int i = 0; i < diceValues.Count; i++)
-            {
+            {   // if the value is not the same as the 'pairToKeep' , the two of a kind that the user wishes to keep
                 if (diceValues[i] != pairToKeep)
-                {
+                {   //then it re-rools the dices
                     die[i].RollDice();
                 }
             }
-            //foreach (int i in dicesToBeRolled)
-            //{
-            //    die[i].RollDice();
-            //}
-
+            //Clears the values on the diceValue list
             diceValues.Clear();
 
-            if (Attempts > 0)
-            {
-                for (int i = 0; i < die.Length; i++)
-                {
-                    diceValues.Add(die[i].GetValueOnTop());
-                }
-                Attempts--;
-                return diceValues;
+            //Goes through every dice
+            for (int i = 0; i < die.Length; i++)
+            {   //Gets the value on top of every dice and adds it into diceValues list
+                diceValues.Add(die[i].GetValueOnTop());
             }
+            //decreases the number of attempts by 1
+            Attempts--;
+            //return diceValues list
+            return diceValues;
         }
+        //if the number of attempts is 0 , then clears the diceValues list and returns it
         diceValues.Clear();
         return diceValues;
     }

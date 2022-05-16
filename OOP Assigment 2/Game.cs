@@ -151,7 +151,7 @@ class Game
 
         if (temp.Any() && scored == false)
         {
-            if (temp.Count > 1 && player.GetAttempts() < 2)
+            if (temp.Count > 1 && player.GetAttempts() < 0)
             {
                 pairToKeep = userInterface.SelectDicesToKeep(temp);
             }

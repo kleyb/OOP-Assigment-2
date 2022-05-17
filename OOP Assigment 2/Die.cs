@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 class Die : IDie
 {   //Create a new Random Object
-    Random random = new Random();
+    private Random random = new Random();
     //The array numbers hold all the numbers from the dices
-    public int[] Numbers = { 1, 2, 3, 4, 5, 6 };
+    private int[] Numbers = { 1, 2, 3, 4, 5, 6 };
     
-    //The value property holds the value that is on the top of the dice when rolled
+    //The value on top property holds the value that is on the top of the dice when rolled
     private int ValueOnTop { get; set; }
   
     //Returns the current value on top ( face) 

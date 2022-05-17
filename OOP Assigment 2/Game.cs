@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 class Game
 {   // Creates and instance of all players, of die and of UI
-    HumanPlayer player1 = new HumanPlayer();
-    HumanPlayer player2 = new HumanPlayer();
-    HumanPlayer player3 = new HumanPlayer();
-    CompPlayer compPlayer = new CompPlayer();
+    private HumanPlayer player1 = new HumanPlayer();
+    private HumanPlayer player2 = new HumanPlayer();
+    private HumanPlayer player3 = new HumanPlayer();
+    private CompPlayer compPlayer = new CompPlayer();
     private Die[] die = new Die[5];
-    UI userInterface = new UI();  
+    private UI userInterface = new UI();  
     //Resets the number of attempts , this method works on the game mode 'Player vs Player vs Player'
-    public void ResetAttemptsNumber(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
+    private void ResetAttemptsNumber(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
     {
         player1.SetAttempts(2);
         player2.SetAttempts(2);
@@ -22,7 +22,7 @@ class Game
     }
     //This method , like the one previous , also resets the number of attempts , it is an overload and it works with
     //The 'PVP' mode and ' Player vs Computer'
-    public void ResetAttemptsNumber(Player player1,Player player2)
+    private void ResetAttemptsNumber(Player player1,Player player2)
     {        
         player1.SetAttempts(2);
         player2.SetAttempts(2);
@@ -107,7 +107,7 @@ class Game
         }
     }
     //Checks for Numbers on for Human players
-    public void CheckforNumbers(List<int> diceValues, HumanPlayer player)
+    private void CheckforNumbers(List<int> diceValues, HumanPlayer player)
     {   //Create a dictionary to find the frequency of numbers
         Dictionary<int,int> frequency = new Dictionary<int,int>();
         //Temporary list to store the 2 of-a-kind
@@ -167,7 +167,7 @@ class Game
         //if temp has any values and the player hasn't scored
         if (temp.Any() && scored == false)
         {   // if there are more than 1 '2 of-a-kind' then the user needs to select one to keep
-            if (temp.Count > 1 && player.GetAttempts() < 0)
+            if (temp.Count > 1 && player.GetAttempts() > 0)
             {   //User the 'SelectDicesToKeep' from interface to get the input from player
                 pairToKeep = userInterface.SelectDicesToKeep(temp);
             }
@@ -190,7 +190,7 @@ class Game
         }
     }
     //Checks the numbers for compPlayer
-    public void CheckforNumbers(List<int> diceValues, CompPlayer compPlayer)
+    private void CheckforNumbers(List<int> diceValues, CompPlayer compPlayer)
     {
         //Dictionary is used to determine the frequency of numbers and used to find out if there is a 2 of-a-kind twice 
         Dictionary<int, int> frequency = new Dictionary<int, int>();
@@ -273,7 +273,7 @@ class Game
         }
     }
     //Find the winner for game modes with 2 players
-    public Player FindWinner(Player player1, Player player2)
+    private Player FindWinner(Player player1, Player player2)
     {   //if player1's points are greater than player2 , return player1     
         if (player1.GetPoints() > player2.GetPoints())
         {
@@ -290,7 +290,7 @@ class Game
         }
     }
     //Find the winner for the game mode with 3 players
-    public Player FindWinner(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
+    private Player FindWinner(HumanPlayer player1, HumanPlayer player2, HumanPlayer player3)
     {   //if player1's points are greater than player2's points and player3's points , return player1
         if (player1.GetPoints() > player2.GetPoints() && player1.GetPoints() > player3.GetPoints())
         {

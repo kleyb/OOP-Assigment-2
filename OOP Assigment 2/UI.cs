@@ -146,7 +146,7 @@ class UI
                     return false;
                 }
                 else
-                {   // if the user doesn't select a option from the menu , throws an execption 
+                {   // if the user doesn't select a option from the menu , throws an exception 
                     throw new InvalidSelectionException("Invalid selection, please enter a number from the menu ");
                 }
             }
@@ -161,7 +161,7 @@ class UI
         }
     }
 
-    //This Method Display weather a player has scored points or not in the round
+    //This method displays whether a player has scored points or not in the round
     //it takes the player and the number of points
     public void DisplayPointsScored(Player player, int points)
     {   // if the number of points is 0 then the players hasn't scored in this round
@@ -215,14 +215,13 @@ class UI
     }
     // The SetPlayersName is used to request a name for the player
     public void SetPlayersName(HumanPlayer player)
-    {   //Request a name for the player
-        Console.WriteLine("Please enter the name of the Player \n");
+    {
         //Declared the variable name as a empty.string
         string name = string.Empty;
         // While name is null or empty or a white space , continues the loop
         while (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
         {   // Resquest the user to input the name
-            Console.WriteLine("Please enter your name: ");
+            Console.WriteLine("Please the name of the Player: ");
             //Assignts the user's input into the name variable
             name = Console.ReadLine();
         }
